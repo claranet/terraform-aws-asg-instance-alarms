@@ -14,18 +14,11 @@ query = json.load(sys.stdin)
 boolean_keys = [
     'ActionsEnabled',
 ]
-decimal_keys = [
-    'Threshold',
-]
 list_keys = [
     'AlarmActions',
     'Dimensions',
     'InsufficientDataActions',
     'OKActions',
-]
-long_keys = [
-    'EvaluationPeriods',
-    'Periods',
 ]
 
 alarm = {}
@@ -33,12 +26,8 @@ for key, value in query.items():
 
     if key in boolean_keys:
         value = value.lower() in ('1', 'true')
-    elif key in decimal_keys:
-        value = decimal.Decimal(value)
     elif key in list_keys:
         value = json.loads(value)
-    elif key in long_keys:
-        value = long(value)
 
     if value:
         alarm[key] = value

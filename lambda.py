@@ -1,4 +1,5 @@
 import boto3
+import decimal
 import json
 import os
 
@@ -211,6 +212,11 @@ def put_metric_alarm(**alarm):
     Creates a CloudWatch Metric Alarm.
 
     """
+
+    # Convert numeric fields into appropriate types.
+    alarm['EvaluationPeriods'] = long(alarm['EvaluationPeriods'])
+    alarm['Period'] = long(alarm['Period'])
+    alarm['Threshold'] = decimal.Decimal(alarm['Threshold'])
 
     response = cloudwatch.put_metric_alarm(**alarm)
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
