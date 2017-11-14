@@ -23,8 +23,8 @@ data "external" "template" {
 }
 
 resource "aws_s3_bucket_object" "template" {
-  bucket = "${var.bucket}"
-  key    = "${lookup(data.external.template.result, "key")}"
-  source = "${lookup(data.external.template.result, "source")}"
-  etag   = "${lookup(data.external.template.result, "etag")}"
+  bucket  = "${var.bucket}"
+  key     = "${lookup(data.external.template.result, "key")}"
+  content = "${lookup(data.external.template.result, "content")}"
+  etag    = "${lookup(data.external.template.result, "etag")}"
 }

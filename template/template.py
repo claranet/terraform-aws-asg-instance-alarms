@@ -32,13 +32,13 @@ for key, value in query.items():
     if value:
         alarm[key] = value
 
-source = json.dumps(alarm, indent=2, sort_keys=True)
-etag = hashlib.sha256(source).hexdigest()
+content = json.dumps(alarm, indent=2, sort_keys=True)
+etag = hashlib.sha256(content).hexdigest()
 
 # Output the result to Terraform.
 json.dump({
     'key': etag,
-    'source': source,
+    'content': content,
     'etag': etag,
 }, sys.stdout, indent=2)
 sys.stdout.write('\n')
