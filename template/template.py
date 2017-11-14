@@ -33,7 +33,7 @@ for key, value in query.items():
         alarm[key] = value
 
 content = json.dumps(alarm, indent=2, sort_keys=True)
-etag = hashlib.sha256(content).hexdigest()
+etag = hashlib.md5(content).hexdigest()
 
 # Output the result to Terraform.
 json.dump({
