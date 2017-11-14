@@ -147,9 +147,9 @@ def get_alarm_keys(asg):
     """
 
     for tag in asg['Tags']:
-        tag_name = tag['Name']
-        if tag_name.startswith(ALARM_NAME_PREFIX):
-            prefix, alarm_key = tag_name.split(':', 1)
+        tag_key = tag['Key']
+        if tag_key.startswith(ALARM_NAME_PREFIX):
+            alarm_key = tag_key[len(ALARM_NAME_PREFIX):]
             yield alarm_key
 
 
