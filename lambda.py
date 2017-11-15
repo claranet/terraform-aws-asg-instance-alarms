@@ -165,11 +165,10 @@ def get_alarms_to_create(asg, instance_id):
 
         # Read alarm templates from S3 and cache them in memory.
         if alarm_key not in ALARM_TEMPLATES_CACHE:
-            alarm_object = get_s3_object(
+            ALARM_TEMPLATES_CACHE[alarm_key] = get_s3_object_body(
                 Bucket=ALARM_TEMPLATES_BUCKET,
                 Key=alarm_key,
             )
-            ALARM_TEMPLATES_CACHE[alarm_key] = alarm_object['Body'].read()
         template_string = ALARM_TEMPLATES_CACHE[alarm_key]
 
         # Render the template using variables from the ASG and instance.
@@ -196,9 +195,9 @@ def get_alarms_to_create(asg, instance_id):
         yield alarm
 
 
-def get_s3_object(**kwargs):
+def get_s3_object_body(**kwargs):
     """
-    Returns an object from S3.
+    Returns the content of an object in S3.
 
     """
 
@@ -206,7 +205,7 @@ def get_s3_object(**kwargs):
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
         raise Exception('ERROR: {}'.format(response))
 
-    return response
+    return response['Body'].read().decode('utf-8')
 
 
 def put_metric_alarm(**alarm):
