@@ -219,9 +219,22 @@ def put_metric_alarm(**alarm):
     alarm['Period'] = int(alarm['Period'])
     alarm['Threshold'] = decimal.Decimal(alarm['Threshold'])
 
+    # Temporarily disable the OK actions to avoid spamming Slack channels
+    # with "this new alarm is OK" messages.
+    ok_actions = alarm['OKActions']
+    alarm['OKActions'] = []
+
+    # Create the alarm.
     response = cloudwatch.put_metric_alarm(**alarm)
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
         raise Exception('ERROR: {}'.format(response))
+
+    # Update the alarm with the original OK actions.
+    if ok_actions:
+        alarm['OKActions'] = ok_actions
+        response = cloudwatch.put_metric_alarm(**alarm)
+        if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+            raise Exception('ERROR: {}'.format(response))
 
 
 def lambda_handler(event, context):
