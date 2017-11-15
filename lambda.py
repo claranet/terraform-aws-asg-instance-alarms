@@ -169,7 +169,7 @@ def get_alarms_to_create(asg, instance_id):
                 Bucket=ALARM_TEMPLATES_BUCKET,
                 Key=alarm_key,
             )
-            ALARM_TEMPLATES_CACHE[alarm_key] = alarm_object.read()
+            ALARM_TEMPLATES_CACHE[alarm_key] = alarm_object['Body'].read()
         template_string = ALARM_TEMPLATES_CACHE[alarm_key]
 
         # Render the template using variables from the ASG and instance.
