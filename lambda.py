@@ -125,6 +125,8 @@ def full_sweep():
     expected_alarm_names = set()
     for asg in describe_auto_scaling_groups():
         for instance in asg['Instances']:
+            if instance['LifecycleState'] != 'InService':
+                continue
             alarms = get_alarms_to_create(asg, instance['InstanceId'])
             for alarm in alarms:
                 alarm_name = alarm['AlarmName']
