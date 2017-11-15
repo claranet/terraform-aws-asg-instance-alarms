@@ -215,8 +215,8 @@ def put_metric_alarm(**alarm):
     """
 
     # Convert numeric fields into appropriate types.
-    alarm['EvaluationPeriods'] = long(alarm['EvaluationPeriods'])
-    alarm['Period'] = long(alarm['Period'])
+    alarm['EvaluationPeriods'] = int(alarm['EvaluationPeriods'])
+    alarm['Period'] = int(alarm['Period'])
     alarm['Threshold'] = decimal.Decimal(alarm['Threshold'])
 
     response = cloudwatch.put_metric_alarm(**alarm)
