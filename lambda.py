@@ -231,8 +231,9 @@ def lambda_handler(event, context):
         asg_name = event['detail']['AutoScalingGroupName']
         instance_id = event['detail']['EC2InstanceId']
         create_instance_alarms(asg_name, instance_id)
-    elif event['detail-type'] == 'EC2 Instance Terminate Successful':
-        instance_id = event['detail']['EC2InstanceId']
-        delete_instance_alarms(instance_id)
+    elif event['detail-type'] == 'EC2 Instance State-change Notification':
+        if event['detail']['state'] not in ('pending', 'running'):
+            instance_id = event['detail']['instance-id']
+            delete_instance_alarms(instance_id)
     else:
         full_sweep()

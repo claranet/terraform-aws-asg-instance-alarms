@@ -6,11 +6,12 @@ resource "aws_cloudwatch_event_rule" "events" {
   event_pattern = <<PATTERN
 {
   "source": [
-    "aws.autoscaling"
+    "aws.autoscaling",
+    "aws.ec2"
   ],
   "detail-type": [
       "EC2 Instance Launch Successful",
-      "EC2 Instance Terminate Successful"
+      "EC2 Instance State-change Notification"
   ]
 }
 PATTERN
