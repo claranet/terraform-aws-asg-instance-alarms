@@ -1,5 +1,5 @@
 module "lambda" {
-  source = "../../modules/tf-aws-lambda"
+  source = "../tf-aws-lambda"
 
   function_name = "${var.name}"
   description   = "Manages ASG instance alarms"
