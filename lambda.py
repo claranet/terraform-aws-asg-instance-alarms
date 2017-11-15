@@ -178,11 +178,11 @@ def get_alarms_to_create(asg, instance_id):
             'instance.InstanceId': instance_id,
         }
         for tag in asg['Tags']:
-            name = 'asg.Tags.' + tag['Name']
-            template_variables[name] = tag['Value']
-        for name, value in template_variables.items():
+            var_name = 'asg.Tags.' + tag['Key']
+            template_variables[var_name] = tag['Value']
+        for var_name, value in template_variables.items():
             template_string = template_string.replace(
-                '{{' + name + '}}',
+                '{{' + var_name + '}}',
                 value,
             )
 
