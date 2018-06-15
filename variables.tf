@@ -1,5 +1,5 @@
 variable "name" {
-  default = "tf-aws-asg-instance-alarms"
+  default = "terraform-aws-asg-instance-alarms"
 }
 
 variable "schedule" {
