@@ -1,5 +1,5 @@
 module "lambda" {
-  source = "../tf-aws-lambda"
+  source = "github.com/claranet/terraform-aws-lambda?ref=v0.8.3"
 
   function_name = "${var.name}"
   description   = "Manages ASG instance alarms"
