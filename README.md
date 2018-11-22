@@ -16,7 +16,7 @@ The Lambda function also runs on a schedule to ensure that all alarms within the
 
 ### Alarm templates
 
-Use the `terraform-aws-asg-instance-alarms/template` submodule to create alarm templates. Each template is used to create one specific alarm, but variables in the template allow for it to be reused across multiple ASGs and instances.
+Use the `template` submodule to create alarm templates. Each template is used to create one specific alarm, but variables in the template allow for it to be reused across multiple ASGs and instances.
 
 Alarm template usage maps directly to the CloudWatch PutMetricAlarm API, except that it has variables using the `{{name}}` syntax. The supported template variables are:
 
@@ -26,7 +26,7 @@ Alarm template usage maps directly to the CloudWatch PutMetricAlarm API, except 
 
 ### ASG tags
 
-The `terraform-aws-asg-instance-alarms/template` submodule has a `tags` output that can be added to ASGs to enable that alarm. The Lambda function uses these ASG tags to determine the alarms to create for the EC2 instances.
+The `template` submodule has a `tags` output that can be added to ASGs to enable that alarm. The Lambda function uses these ASG tags to determine the alarms to create for the EC2 instances.
 
 ## Example
 
@@ -34,14 +34,18 @@ The `terraform-aws-asg-instance-alarms/template` submodule has a `tags` output t
 // Create the Lambda function and asssociated resources once per AWS account.
 
 module "instance_alarms" {
-  source = "terraform-aws-asg-instance-alarms"
+  source  = "claranet/asg-instance-alarms/aws"
+  version = "0.1.1"
+
   name   = "${var.customer}-asg-instance-alarms"
 }
 
 // Create any number of alarm templates.
 
 module "cpu_credits_alarm" {
-  source = "terraform-aws-asg-instance-alarms/template"
+  source  = "claranet/asg-instance-alarms/aws//modules/template"
+  version = "0.1.1"
+
   bucket = "${module.instance_alarms.bucket}"
 
   AlarmDescription = "{{instance.InstanceId}} is low on CPU credits"
@@ -75,7 +79,9 @@ module "cpu_credits_alarm" {
 }
 
 module "memory_alarm" {
-  source = "terraform-aws-asg-instance-alarms/template"
+  source  = "claranet/asg-instance-alarms/aws//modules/template"
+  version = "0.1.1"
+
   bucket = "${module.instance_alarms.bucket}"
 
   AlarmDescription = "{{instance.InstanceId}} is low on memory"
