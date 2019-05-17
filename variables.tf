@@ -5,3 +5,7 @@ variable "name" {
 variable "schedule" {
   default = "rate(5 minutes)"
 }
+
+variable "lambda_layers" {
+  default = []
+}
