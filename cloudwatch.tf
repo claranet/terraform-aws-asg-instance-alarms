@@ -42,7 +42,7 @@ resource "aws_cloudwatch_event_rule" "schedule" {
 resource "aws_cloudwatch_event_target" "schedule" {
   count     = var.schedule == "" ? 0 : 1
   target_id = "${var.name}-schedule"
-  rule      = aws_cloudwatch_event_rule.schedule.name
+  rule      = aws_cloudwatch_event_rule.schedule[0].name
   arn       = module.lambda.function_arn
 }
 
@@ -52,5 +52,5 @@ resource "aws_lambda_permission" "schedule" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.schedule.arn
+  source_arn    = aws_cloudwatch_event_rule.schedule[0].arn
 }

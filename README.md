@@ -4,6 +4,13 @@ This module manages EC2 instance alarms for an auto scaling group. It will autom
 
 With the right metrics being pushed into CloudWatch, plus this module, you can have alerts for EC2 instances without the need for any monitoring servers.
 
+## Terraform version compatibility
+
+| Module version | Terraform version |
+|----------------|-------------------|
+| 1.x.x          | 0.12.x            |
+| 0.x.x          | 0.11.x            |
+
 ## Components
 
 ### Lambda function
@@ -35,7 +42,7 @@ The `template` submodule has a `tags` output that can be added to ASGs to enable
 
 module "instance_alarms" {
   source  = "claranet/asg-instance-alarms/aws"
-  version = "0.1.1"
+  version = "1.0.0"
 
   name   = "${var.customer}-asg-instance-alarms"
 }
@@ -44,9 +51,9 @@ module "instance_alarms" {
 
 module "cpu_credits_alarm" {
   source  = "claranet/asg-instance-alarms/aws//modules/template"
-  version = "0.1.1"
+  version = "1.0.0"
 
-  bucket = "${module.instance_alarms.bucket}"
+  bucket = module.instance_alarms.bucket
 
   AlarmDescription = "{{instance.InstanceId}} is low on CPU credits"
   Namespace        = "AWS/EC2"
@@ -66,15 +73,15 @@ module "cpu_credits_alarm" {
   EvaluationPeriods  = 5
 
   OKActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 
   AlarmActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 
   InsufficientDataActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 }
 
@@ -82,7 +89,7 @@ module "memory_alarm" {
   source  = "claranet/asg-instance-alarms/aws//modules/template"
   version = "0.1.1"
 
-  bucket = "${module.instance_alarms.bucket}"
+  bucket = module.instance_alarms.bucket
 
   AlarmDescription = "{{instance.InstanceId}} is low on memory"
   Namespace        = "Telegraf/EC2"
@@ -110,15 +117,15 @@ module "memory_alarm" {
   EvaluationPeriods  = 5
 
   OKActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 
   AlarmActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 
   InsufficientDataActions = [
-    "${aws_sns_topic.slack.arn}",
+    aws_sns_topic.slack.arn,
   ]
 }
 
@@ -127,11 +134,11 @@ module "memory_alarm" {
 module "bastion_asg" {
   extra_tags = [
     {
-      key = "${module.cpu_credits_alarm.tag}"
+      key = module.cpu_credits_alarm.tag
       value = ""
     },
     {
-      key = "${module.memory_alarm.tag}"
+      key = module.memory_alarm.tag
       value = ""
     },
   ]
