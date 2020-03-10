@@ -1,6 +1,6 @@
 variable "bucket" {
   description = "The S3 bucket used to store the template file."
-  type        = "string"
+  type        = string
 }
 
 variable "ActionsEnabled" {
@@ -16,7 +16,7 @@ variable "AlarmDescription" {
 }
 
 variable "ComparisonOperator" {
-  type = "string"
+  type = string
 }
 
 variable "Dimensions" {
@@ -28,7 +28,7 @@ variable "EvaluateLowSampleCountPercentile" {
 }
 
 variable "EvaluationPeriods" {
-  type = "string"
+  type = string
 }
 
 variable "ExtendedStatistic" {
@@ -40,11 +40,11 @@ variable "InsufficientDataActions" {
 }
 
 variable "MetricName" {
-  type = "string"
+  type = string
 }
 
 variable "Namespace" {
-  type = "string"
+  type = string
 }
 
 variable "OKActions" {
@@ -52,7 +52,7 @@ variable "OKActions" {
 }
 
 variable "Period" {
-  type = "string"
+  type = string
 }
 
 variable "Statistic" {
@@ -60,7 +60,7 @@ variable "Statistic" {
 }
 
 variable "Threshold" {
-  type = "string"
+  type = string
 }
 
 variable "TreatMissingData" {
