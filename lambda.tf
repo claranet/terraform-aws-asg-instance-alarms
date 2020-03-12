@@ -19,6 +19,8 @@ module "lambda" {
   policy = {
     json = data.aws_iam_policy_document.lambda.json
   }
+
+  tags = var.lambda_tags
 }
 
 data "aws_iam_policy_document" "lambda" {
