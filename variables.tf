@@ -9,3 +9,13 @@ variable "schedule" {
 variable "lambda_layers" {
   default = []
 }
+
+variable "s3_tags" {
+  type    = map
+  default = {}
+}
+
+variable "lambda_tags" {
+  type    = map
+  default = {}
+}
