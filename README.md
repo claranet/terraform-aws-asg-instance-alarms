@@ -8,6 +8,7 @@ With the right metrics being pushed into CloudWatch, plus this module, you can h
 
 | Module version | Terraform version |
 |----------------|-------------------|
+| 1.1.x          | 1.1.x             |
 | 1.x.x          | 0.12.x            |
 | 0.x.x          | 0.11.x            |
 
